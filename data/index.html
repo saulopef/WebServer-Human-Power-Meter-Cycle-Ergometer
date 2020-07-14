@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>GPPH Ergo-fit Power Controller</title>
+
+    <!--<link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">-->
+
+    <!-- Custom styles for this template-->
+    <link href="sb-admin-2.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top" onload="resetTest()">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <svg version="1.1" id="Camada_1" style="width: 2.5rem;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 640 512" style="enable-background:new 0 0 640 512;" xml:space="preserve">
+                    <style type="text/css">
+                      .st0{fill:#F8F9FC;}
+                    </style>
+                    <path class="st0" d="M512.5,192c-16.4-0.1-32,3-46.4,8.5L388.4,75.3C384,68.3,376.3,64,368,64h-64c-8.8,0-16,7.2-16,16v16
+                      c0,8.8,7.2,16,16,16h50.6l14.9,24H256v-16c0-8.8-7.2-16-16-16h-87.5c-13.4,0-24.8,11-24.5,24.4c0.2,13,10.9,23.6,24,23.6h48.7
+                      l-29.4,47.5c-13.4-4.8-27.9-7.5-43-7.5C58.1,191.8,0.4,249,0,319.2C-0.4,390.3,57.1,448,128,448c59.6,0,109.8-40.8,124-96h52
+                      c8.3,0,16-4.3,20.4-11.4l86-138.9l14.9,24.1c-25.5,23.4-41.4,57.1-41.3,94.4c0.1,68.8,57.9,127.1,126.7,127.7
+                      c70.6,0.7,128.2-55.8,129.3-126C641.1,251.1,583.5,192.3,512.5,192L512.5,192z M186.8,265.8c9.7,10.5,16.7,23.7,19.6,38.2h-43.3
+                      L186.8,265.8z M128,400c-44.1,0-80-35.9-80-80s35.9-80,80-80c5.9,0,11.6,0.7,17.1,1.9l-45.5,73.5c-9.9,16,1.6,36.6,20.4,36.6h81.3
+                      C188.9,380.2,160.7,400,128,400z M290.6,304H255c-4-31.8-19.6-59.9-42.4-80l24.7-40h127.5L290.6,304L290.6,304z M507.7,399.9
+                      c-41-2.2-74-35.7-75.6-76.8c-0.8-21.1,6.6-40.5,19.3-55.3l44.4,71.6c4.7,7.5,14.5,9.8,22,5.2l13.6-8.4c7.5-4.7,9.8-14.5,5.2-22
+                      l-44.5-71.6c6.5-1.7,13.2-2.5,19.9-2.5c44.1,0,80,35.9,80,80C592,365.5,553.8,402.3,507.7,399.9z"/>
+                    </svg>
+                </div>
+                <div class="sidebar-brand-text mx-3">OneCorpore<br>
+                </div>
+            </a>
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">
+                    <svg version="1.1" style="width: 1.3rem;" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 576 512" style="enable-background:new 0 0 576 512;" xml:space="preserve">
+                    <path class="st0" d="M288,32C128.9,32,0,160.9,0,320c0,52.8,14.3,102.3,39.1,144.8c5.6,9.6,16.3,15.2,27.4,15.2h443
+                      c11.1,0,21.8-5.6,27.4-15.2c24.8-42.5,39.1-92,39.1-144.8C576,160.9,447.1,32,288,32z M288,96c14.7,0,26.6,10.1,30.3,23.7
+                      c-1.1,2.3-2.6,4.2-3.5,6.7l-9.2,27.7c-5.1,3.5-11,6-17.6,6c-17.7,0-32-14.3-32-32S270.3,96,288,96z M96,384c-17.7,0-32-14.3-32-32
+                      s14.3-32,32-32s32,14.3,32,32S113.7,384,96,384z M144,224c-17.7,0-32-14.3-32-32s14.3-32,32-32s32,14.3,32,32S161.7,224,144,224z
+                       M390.8,151.6l-61.3,184c13.7,11.7,22.6,29,22.6,48.4c0,11.7-3.4,22.5-8.9,32H232.9c-5.5-9.5-8.9-20.3-8.9-32
+                      c0-33.9,26.5-61.4,59.9-63.6l61.3-184c4.2-12.6,17.7-19.4,30.4-15.2C388.2,125.4,394.9,139,390.8,151.6L390.8,151.6z M405.4,208.8
+                      l15.5-46.6c3.5-1.3,7.1-2.2,11-2.2c17.7,0,32,14.3,32,32s-14.3,32-32,32C420.6,224,411.1,217.7,405.4,208.8L405.4,208.8z M480,384
+                      c-17.7,0-32-14.3-32-32s14.3-32,32-32s32,14.3,32,32S497.7,384,480,384z"/>
+                    </svg>
+                    <span>Dashboard</span></a>
+            </li>
+            <!-- Heading -->
+            <li class="nav-item active">
+                <a class="nav-link" href="about.html">
+                    <svg version="1.1" style="width: 1.3rem;" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 384 512" style="enable-background:new 0 0 384 512;" xml:space="preserve">
+                    <path class="st0" d="M384,144c0-44.2-35.8-80-80-80s-80,35.8-80,80c0,36.4,24.3,67.1,57.5,76.8c-0.6,16.1-4.2,28.5-11,36.9
+                    	c-15.4,19.2-49.3,22.4-85.2,25.7c-28.2,2.6-57.4,5.4-81.3,16.9v-144c32.5-10.2,56-40.5,56-76.3c0-44.2-35.8-80-80-80S0,35.8,0,80
+                    	c0,35.8,23.5,66.1,56,76.3v199.3C23.5,365.9,0,396.2,0,432c0,44.2,35.8,80,80,80s80-35.8,80-80c0-34-21.2-63.1-51.2-74.6
+                    	c3.1-5.2,7.8-9.8,14.9-13.4c16.2-8.2,40.4-10.4,66.1-12.8c42.2-3.9,90-8.4,118.2-43.4c14-17.4,21.1-39.8,21.6-67.9
+                    	C361.2,209.1,384,179.2,384,144L384,144z M80,64c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S71.2,64,80,64z M80,448
+                    	c-8.8,0-16-7.2-16-16s7.2-16,16-16s16,7.2,16,16S88.8,448,80,448z M304,128c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16
+                    	S295.2,128,304,128z"/>
+                    </svg>
+                    <span>Sobre</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow justify-content-center">
+                    <div class="h4 mb-0 font-weight-bold text-gray-800">GPPH Ergo-fit Power Controller</div>
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-start mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                    </div>
+                    <!-- Content Row -->
+                    <div class="row">
+                        <div class="col-xl-9">
+                            <div class="row justify-content-md-start">
+                                <!-- Interval settings -->
+                                <div class="col-xl-4 col-md-6 mb-4">
+                                    <div class="card border-left-primary shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center pb-4">
+                                                <div class="col mr-2">
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800 pb-2">Estágio</div>
+                                                    <div class="small font-weight-bold text-center">Selecione o intervalo de cada estágio de carga.
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <svg version="1.1" style="width: 2rem;" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                                    <style type="text/css">
+                                                      .st1{fill:#6e707e;}
+                                                    </style>
+                                                    <path class="st1" d="M256,8C119,8,8,119,8,256s111,248,248,248s248-111,248-248S393,8,256,8z M313.1,358.1L224.9,294
+                                                      c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6,5.4-12,12-12h48c6.6,0,12,5.4,12,12v137.7l63.5,46.2c5.4,3.9,6.5,11.4,2.6,16.8l-28.2,38.8
+                                                      C326,360.8,318.5,362,313.1,358.1L313.1,358.1z"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control form-control-range" id="stageInput" min="0" aria-describedby="stageHelp" placeholder="Enter the stage..." onchange="setStage()">
+                                                <div class="input-group-append"> <span class="input-group-text">sec</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- weight settings -->
+                                <div class="col-xl-4 col-md-6 mb-4">
+                                    <div class="card border-left-info shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center pb-4">
+                                                <div class="col mr-2">
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800 pb-2">Incremento</div>
+                                                    <div class="small font-weight-bold text-center">Selecione o incremento para cada estágio.
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <svg version="1.1" style="width: 2rem;" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                                      <path class="st1" d="M400,54.1c63,45,104,118.6,104,201.9c0,136.8-110.8,247.7-247.5,248C120,504.3,8.2,393,8,256.4
+                                                      	C7.9,173.1,48.9,99.3,111.8,54.2c11.7-8.3,28-4.8,35,7.7L162.6,90c5.9,10.5,3.1,23.8-6.6,31c-41.5,30.8-68,79.6-68,134.9
+                                                      	C87.9,348.2,162.5,424,256,424c91.6,0,168.6-74.2,168-169.1c-0.3-51.8-24.7-101.8-68.1-134c-9.7-7.2-12.4-20.5-6.5-30.9l15.8-28.1
+                                                      	C372.2,49.5,388.4,45.8,400,54.1L400,54.1z M296,264V24c0-13.3-10.7-24-24-24h-32c-13.3,0-24,10.7-24,24v240c0,13.3,10.7,24,24,24
+                                                      	h32C285.3,288,296,277.3,296,264z"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <input type="number" max="100" class="form-control form-control-range" id="incrementInput" min="0" aria-describedby="incrementHelp" placeholder="Enter the increment..." onchange="setIncrement()">
+                                                <div class="input-group-append"> <span class="input-group-text">w</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- age settings -->
+                                <div class="col-xl-4 col-md-6 mb-4">
+                                    <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center pb-4">
+                                                <div class="col mr-2">
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800 pb-2">Carga Inicial</div>
+                                                    <div class="small font-weight-bold text-center">Selecione a carga inicial do teste.</div>
+                                                </div>
+                                                <div class="col-auto" style="width: 2rem;">
+                                                    <svg version="1.1" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                                      <path class="st1" d="M510.3,445.9l-73-292.1c-3.8-15.2-16.4-25.7-30.9-25.7h-60.3c3.6-10.1,5.9-20.7,5.9-32c0-53-43-96-96-96
+                                                      	s-96,43-96,96c0,11.3,2.3,21.9,5.9,32h-60.3c-14.4,0-27.1,10.5-30.9,25.7L1.7,445.9C-6.6,479.2,16.4,512,48,512h416
+                                                      	C495.6,512,518.6,479.2,510.3,445.9z M256,128c-17.6,0-32-14.4-32-32s14.4-32,32-32s32,14.4,32,32S273.6,128,256,128z"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <input type="number" max="100" class="form-control form-control-range" id="powerInput" min="0" aria-describedby="powerHelp" placeholder="Enter the initial power..." onchange="setPower()">
+                                                <div class="input-group-append"> <span class="input-group-text">w</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Content Row -->
+                            <div class="row">
+                                <!-- Interval settings -->
+                                <div class="col-xl-4 col-md-6 mb-4">
+                                    <div class="card border-left-primary shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center pb-4">
+                                                <div class="col mr-2">
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800 pb-2">Estatura</div>
+                                                    <div class="small font-weight-bold text-center">Selecione a estaturado individuo avaliado.
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <svg version="1.1" style="width: 1.3rem;" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 512" style="enable-background:new 0 0 256 512;" xml:space="preserve">
+                                                    <path class="st1" d="M214.1,377.9H168V134.1h46.1c21.4,0,32.1-25.9,17-41L145,7c-9.4-9.4-24.6-9.4-33.9,0L25,93.1
+                                                    	c-15.1,15.1-4.4,41,17,41H88v243.9H41.9c-21.4,0-32.1,25.9-17,41L111,505c9.4,9.4,24.6,9.4,33.9,0l86.1-86.1
+                                                    	C246.1,403.8,235.4,377.9,214.1,377.9L214.1,377.9z"/>
+                                                   </svg>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <input type="number" max="3" class="form-control form-control-range" id="heightInput" min="1" max="3" aria-describedby="heightHelp" placeholder="Enter the height..." onChange="calcularImc()">
+                                                <div class="input-group-append"> <span class="input-group-text">M</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- weight settings -->
+                                <div class="col-xl-4 col-md-6 mb-4">
+                                    <div class="card border-left-info shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center pb-4">
+                                                <div class="col mr-2">
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800 pb-2">Peso</div>
+                                                    <div class="small font-weight-bold text-center">Selecione o peso do individuo avaliado.</div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <svg version="1.1" style="width: 2rem;" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                                  <path class="st1" d="M448,64h-26c16.4,28.3,26,61,26,96c0,105.9-86.1,192-192,192S64,265.9,64,160c0-35,9.6-67.7,26-96H64
+                                                    C28.7,64,0,92.7,0,128v320c0,35.3,28.7,64,64,64h384c35.3,0,64-28.7,64-64V128C512,92.7,483.3,64,448,64z M256,320
+                                                    c88.4,0,160-71.6,160-160S344.4,0,256,0S96,71.6,96,160S167.6,320,256,320z M255.7,168.1l33.6-78.4c3.5-8.2,12.9-11.9,21-8.4
+                                                    c8.1,3.5,11.9,12.9,8.4,21L285,180.8c6.7,7.2,11,16.6,11,27.2c0,22.1-17.9,40-40,40s-40-17.9-40-40C216,186,233.8,168.2,255.7,168.1
+                                                    z"/>
+                                                </svg>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control form-control-range" id="weightInput" min="0" aria-describedby="weightHelp" placeholder="Enter the weight..." onChange="calcularImc()">
+                                                <div class="input-group-append"> <span class="input-group-text">Kg</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- age settings -->
+                                <div class="col-xl-4 col-md-6 mb-4">
+                                    <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center pb-4">
+                                                <div class="col mr-2">
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800 pb-2">Idade</div>
+                                                    <div class="small font-weight-bold text-center">Selecionea idade do individuo avaliado.</div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <svg version="1.1" style="width: 2rem;" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 448 512" style="enable-background:new 0 0 448 512;" xml:space="preserve">
+                                                    <path class="st1" d="M448,384c-28,0-31.3-32-74.5-32c-43.4,0-46.8,32-74.8,32c-27.7,0-31.5-32-74.8-32c-42.8,0-47.2,32-74.5,32
+                                                      c-28.1,0-31.2-32-74.8-32c-43.5,0-46.7,32-74.8,32v-80c0-26.5,21.5-48,48-48h16V112h64v144h64V112h64v144h64V112h64v144h16
+                                                      c26.5,0,48,21.5,48,48V384z M448,512H0v-96c43.4,0,46.8-32,74.8-32c28,0,31.3,32,74.8,32c42.8,0,47.2-32,74.5-32
+                                                      c28.1,0,31.2,32,74.8,32c43.4,0,46.8-32,74.8-32c27.5,0,31.3,32,74.5,32V512z M96,96c-17.8,0-32-14.3-32-32c0-31,32-23,32-64
+                                                      c12,0,32,29.5,32,56S113.8,96,96,96z M224,96c-17.8,0-32-14.3-32-32c0-31,32-23,32-64c12,0,32,29.5,32,56S241.8,96,224,96z M352,96
+                                                      c-17.8,0-32-14.3-32-32c0-31,32-23,32-64c12,0,32,29.5,32,56S369.8,96,352,96z"/>
+                                                  </svg>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control form-control-range" id="ageInput" min="0" aria-describedby="agetHelp" placeholder="Enter the age...">
+                                                <div class="input-group-append"> <span class="input-group-text">Anos</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Testes</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <!-- Bikeindoor.svg -->
+                                    <svg style="width: 10rem; height: 10rem;" id="af9e46fd-88b7-4118-ae45-415b3f4cf6e6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="770.30145" height="650.85004" viewBox="0 0 770.30145 650.85004"><path d="M934.27043,694.14829s-112.306-51.70032-72.853-87.55227S934.27043,694.14829,934.27043,694.14829Z" transform="translate(-214.84928 -124.57498)" fill="#e6e6e6"/><path d="M932.31571,706.21205s-51.62-169.6065,24.39237-161.49519S932.31571,706.21205,932.31571,706.21205Z" transform="translate(-214.84928 -124.57498)" fill="#e6e6e6"/><path d="M894.679,691.17l2.16658,28.37159.03437.49006a130.35307,130.35307,0,0,0,.67063,13.26586c2.94031,28.939,15.57857,42.12751,30.349,42.12751s26.85843-13.18851,29.79875-42.12751a130.356,130.356,0,0,0,.67062-13.26586l.01721-.3955.00856-.09456L960.5699,691.17Z" transform="translate(-214.84928 -124.57498)" fill="#e6e6e6"/><path d="M958.39472,719.54159l-.00856.09456-.01721.3955a130.356,130.356,0,0,1-.67062,13.26586H897.5506a130.35307,130.35307,0,0,1-.67063-13.26586l-.03437-.49006Z" transform="translate(-214.84928 -124.57498)" fill="#fff"/><path d="M299.65949,718.83877s-41.76-19.22429-27.08972-32.55551S299.65949,718.83877,299.65949,718.83877Z" transform="translate(-214.84928 -124.57498)" fill="#e6e6e6"/><path d="M272.00407,716.80251l1.50745,19.74023.02391.341a90.69705,90.69705,0,0,0,.46661,9.23c2.0458,20.135,10.83918,29.31126,21.11606,29.31126s18.68741-9.17623,20.73321-29.31126a90.6971,90.6971,0,0,0,.4666-9.23l.012-.27518.006-.0658,1.51344-19.74023Z" transform="translate(-214.84928 -124.57498)" fill="#e6e6e6"/><path d="M738.253,430.9007l0,0a10.1878,10.1878,0,0,0-2.69545-18.08783l-23.38075-7.45712-12.84708,11.13339L727.691,431.52059A10.18778,10.18778,0,0,0,738.253,430.9007Z" transform="translate(-214.84928 -124.57498)" fill="#ffb9b9"/><path d="M698.93534,423.75854,714.349,405.88627l-57.39472-62.816-26.42595-61.26771a18.81833,18.81833,0,0,0-21.46151-10.89476h0a18.81832,18.81832,0,0,0-12.51968,27.01861l34.49078,66.43564Z" transform="translate(-214.84928 -124.57498)" fill="#e6e6e6"/><polygon points="520.909 535.935 517.955 531.35 512.5 531.35 512.5 529.35 519.045 529.35 522.591 534.851 520.909 535.935" fill="#3f3d56"/><path d="M723.51724,655.925H712.02017v-2h11.49707Zm-15.33007,0H696.6901v-2h11.49707Zm-15.32911,0H681.361v-2h11.49707Zm-15.33007,0H666.03092v-2H677.528Zm-15.32911,0H650.70181v-2h11.49707Zm-15.33007,0-10.65137-.00879-.96875-.12891.26367-1.98242.90332.12012h10.45313Zm-15.419-.64258-11.39746-1.51367.26367-1.98242L631.71353,653.3Zm-15.19629-2.01855-11.397-1.51465.26367-1.98242,11.397,1.51464Zm-15.1958-2.01954-11.397-1.51367.26367-1.98242,11.397,1.51367Zm-15.19629-2.01855-11.397-1.51465.26367-1.98242,11.397,1.51465Z" transform="translate(-214.84928 -124.57498)" fill="#3f3d56"/><polygon points="350.828 526.876 348.829 526.82 349.032 519.712 356.08 520.649 355.816 522.631 350.968 521.988 350.828 526.876" fill="#3f3d56"/><path d="M564.1481,704.99338l-1.999-.05664.38232-13.38575,1.999.05665Zm.50977-17.84766-1.999-.05664.38232-13.38574,1.999.05664Zm.50976-17.84765-1.999-.05665.38233-13.38574,1.999.05664Z" transform="translate(-214.84928 -124.57498)" fill="#3f3d56"/><polygon points="346.969 591.933 347.172 584.824 349.171 584.88 349.031 589.767 353.904 589.388 354.06 591.382 346.969 591.933" fill="#3f3d56"/><path d="M572.736,715.66037l-.15527-1.99414,11.48193-.89258.15528,1.99414Zm15.30909-1.18945-.15528-1.99414,11.48194-.89258.15527,1.99414Zm15.30908-1.18946-.15528-1.99414,11.48243-.89258.15429,1.99415Zm15.30859-1.18945-.1543-1.99414,11.48145-.89258.1543,1.99414Zm15.3086-1.18945-.1543-1.99414,11.48242-.89258.1543,1.99414Zm15.30957-1.18946-.1543-1.99414,11.48144-.89257.1543,1.99414Zm15.30859-1.18945-.1543-1.99414,11.48242-.89258.1543,1.99414Zm15.30957-1.18945-.1543-1.99414,11.48145-.89258.1543,1.99414Zm15.30859-1.18946-.15429-1.99414,11.48242-.89257.1543,1.99414Zm15.30957-1.18945-.15429-1.99414,11.48144-.89258.1543,1.99414Zm15.3086-1.18945-.1543-1.99414,11.48242-.89258.1543,1.99414Zm15.30957-1.18945-.1543-1.99415,11.48145-.89257.15429,1.99414Z" transform="translate(-214.84928 -124.57498)" fill="#3f3d56"/><polygon points="541.595 576.812 541.44 574.818 545.752 574.483 543.409 570.849 545.091 569.765 549.248 576.217 541.595 576.812" fill="#3f3d56"/><path d="M755.75845,691.54416l-7.5-11.6377,1.68165-1.084,7.5,11.63769Zm-10-15.5166-7.5-11.6377,1.68165-1.084,7.5,11.63769Z" transform="translate(-214.84928 -124.57498)" fill="#3f3d56"/><circle cx="504" cy="551.85004" r="68" fill="#6c63ff"/><polygon points="560 630.85 460.5 454.35 438.5 476.35 536.5 630.35 560 630.85" fill="#3f3d56"/><polygon points="258.5 626.35 482 399.85 500.5 436.35 288.5 636.35 258.5 626.35" fill="#3f3d56"/><circle cx="349.5" cy="557.35004" r="45" fill="#3f3d56"/><path d="M504.34928,694.925a1.001,1.001,0,0,0-1,1v8a1.001,1.001,0,0,0,1,1h25a1.001,1.001,0,0,0,1-1v-8a1.001,1.001,0,0,0-1-1Z" transform="translate(-214.84928 -124.57498)" fill="#6c63ff"/><path d="M561.84928,583.425a1.001,1.001,0,0,0-1,1v8a1.001,1.001,0,0,0,1,1h25a1.001,1.001,0,0,0,1-1v-8a1.001,1.001,0,0,0-1-1Z" transform="translate(-214.84928 -124.57498)" fill="#6c63ff"/><polygon points="468.5 442.35 442.5 442.35 442.5 422.35 452.5 418.35 468.5 430.35 468.5 442.35" fill="#3f3d56"/><rect x="660.34928" y="537.92502" width="3" height="12" transform="translate(-383.87489 210.67371) rotate(-25.31588)" fill="#3f3d56"/><path d="M663.51431,524.88058a.99073.99073,0,0,0-.53808.15918l-17.66309,11.35987a1.001,1.001,0,0,0-.2998,1.38183l4.32715,6.72852a1.00071,1.00071,0,0,0,1.38183.30029l17.66309-11.35986v.00049a1.00171,1.00171,0,0,0,.2998-1.38233l-4.32715-6.72851a.99406.99406,0,0,0-.6289-.436A1.00559,1.00559,0,0,0,663.51431,524.88058Z" transform="translate(-214.84928 -124.57498)" fill="#6c63ff"/><path d="M703.3493,564.925h0l-20.5-99.5,24-4,16.36394,80.15542A18.943,18.943,0,0,1,703.3493,564.925Z" transform="translate(-214.84928 -124.57498)" fill="#3f3d56"/><path d="M778.88078,445.82013l-23.74151-1.69583a2,2,0,0,1-1.69914-2.7749l34.48634-81.42609a2,2,0,0,1,1.49-1.18887l23.41745-4.18169a2,2,0,0,1,2.21407,2.69766L780.88576,444.554A2,2,0,0,1,778.88078,445.82013Z" transform="translate(-214.84928 -124.57498)" fill="#3f3d56"/><polygon points="543.5 313.35 562.5 315.35 593.5 237.35 573.5 240.35 543.5 313.35" fill="#6c63ff"/><polygon points="336.5 527.35 311.5 552.35 275.5 395.35 295.5 398.35 336.5 527.35" fill="#3f3d56"/><path d="M522.21516,522.68706l-4.31816-1.29545a60.41115,60.41115,0,0,1-26.97938,5.07729,7.73239,7.73239,0,0,1-7.41086-7.7685v0a7.77536,7.77536,0,0,1,7.77536-7.77536h37.71724a3.84992,3.84992,0,0,1,3.84992,3.84992h0A8.26049,8.26049,0,0,1,522.21516,522.68706Z" transform="translate(-214.84928 -124.57498)" fill="#3f3d56"/><path d="M761.11783,424.50363a4.39372,4.39372,0,0,0-2.67285.90137l-30.70117,23.47705-34.36621,4.48242c-5.917.772-10.01465,7.2085-10.52832,13.06055l40.45312-5.61768a27.16006,27.16006,0,0,0,15.19434-6.521l25.50195-22.05567a4.39754,4.39754,0,0,0-2.88086-7.72705Z" transform="translate(-214.84928 -124.57498)" fill="#3f3d56"/><path d="M746.11783,409.50363a4.39372,4.39372,0,0,0-2.67285.90137l-30.70117,23.47705-34.36621,4.48242c-5.917.772-10.01465,7.2085-10.52832,13.06055l40.45312-5.61768a27.16006,27.16006,0,0,0,15.19434-6.521l25.50195-22.05567a4.39754,4.39754,0,0,0-2.88086-7.72705Z" transform="translate(-214.84928 -124.57498)" fill="#3f3d56"/><path d="M764.84961,469.9248a45.69581,45.69581,0,0,1-36.71289-18.61718l4.03125-2.957a40.50175,40.50175,0,1,0,63.04394-50.72852l3.74805-3.31055a45.50091,45.50091,0,0,1-34.11035,75.61328Z" transform="translate(-214.84928 -124.57498)" fill="#3f3d56"/><rect x="231" y="625.85004" width="354" height="25" fill="#3f3d56"/><path d="M713.09656,456.6261h0a10.18779,10.18779,0,0,0,1.3916-18.23454L693.34928,425.925l-15,8,24.31162,20.95829A10.18779,10.18779,0,0,0,713.09656,456.6261Z" transform="translate(-214.84928 -124.57498)" fill="#ffb9b9"/><path d="M547.34928,544.925l14,8,86.44745-63.63076a27.85052,27.85052,0,0,0,11.83683-18.91318v0a27.94167,27.94167,0,0,0-10.08083-25.7766c-19.09112-15.50607-42.68561-29.57057-67.70346-43.17943l-37,18c15.24829,31.26617,32.175,57.04474,57,57Z" transform="translate(-214.84928 -124.57498)" fill="#6c63ff"/><path d="M541.24647,565.295c11.61559,11.76791,26.91121,20.18759,43.99575,26.97972a6.69787,6.69787,0,0,0,7.51557-1.82588h0a6.69441,6.69441,0,0,0-.24922-9.072l-11.07453-11.369-6.69114-23.83116c-14.3684,7.10225-23.78973,5.51252-25.6472-9.36705L540.039,549.16025A12.46738,12.46738,0,0,0,541.24647,565.295Z" transform="translate(-214.84928 -124.57498)" fill="#2f2e41"/><path d="M502.34928,670.925l21,1,48-247-82.5-26.5c-8.23685,30.79541,3.99267,81.20257,25.5,140.5Z" transform="translate(-214.84928 -124.57498)" fill="#6c63ff"/><circle cx="449" cy="105.85004" r="33" fill="#ffb9b9"/><polygon points="388.5 146.35 409.5 161.35 441.5 129.35 425.5 109.35 388.5 146.35" fill="#ffb9b9"/><path d="M485.34928,400.925c25.89825,21.10455,54.17919,34.97693,89,29,10.52213-16.82209,18.29108-52.25879,31.5-67.5,28.84538-33.28345,43.15165-62.95014,34-90-8.89618-5.816-8.5047-5.8064-15-25C573.97244,256.83765,524.71817,314.27,485.34928,400.925Z" transform="translate(-214.84928 -124.57498)" fill="#e6e6e6"/><path d="M502.01324,691.5052c14.9478,7.06888,32.20363,9.73025,50.58148,10.24912a6.69788,6.69788,0,0,0,6.43309-4.29338h0a6.69441,6.69441,0,0,0-3.34636-8.43594l-14.30271-6.87979L526.9181,662.05578c-11.05991,11.60048-20.45486,13.33933-27.30422,0l-4.2701,14.70812A12.46735,12.46735,0,0,0,502.01324,691.5052Z" transform="translate(-214.84928 -124.57498)" fill="#2f2e41"/><path d="M676.34928,440.925l19-14-42-74-12.14969-65.60829A18.81832,18.81832,0,0,0,622.69587,271.925h0a18.81832,18.81832,0,0,0-18.21094,23.56075L623.34928,367.925Z" transform="translate(-214.84928 -124.57498)" fill="#e6e6e6"/><rect x="355" y="467.85004" width="11" height="60" fill="#3f3d56"/><path d="M689.96913,220.85418a12.15211,12.15211,0,0,0,10.72753,4.28654c3.97236-.61923,7.50788-4.00777,7.76214-8.02.21954-3.46474-1.817-6.64247-3.954-9.3784a76.02955,76.02955,0,0,0-16.60985-15.67969c-3.00151-2.07795-6.31336-3.99085-9.95711-4.21488-1.80292-.11085-3.60978.19994-5.41441.12238-3.31827-.14258-6.42792-1.57847-9.66489-2.32218a23.77775,23.77775,0,0,0-19.309,4.09142,28.651,28.651,0,0,0-4.91809,4.79389,36.93227,36.93227,0,0,0-7.76576,16.88814c-1.73992,9.82683.43206,20.60434-4.29013,29.39613,5.54093-.51744,9.98318-4.74231,15.24715-6.54817a18.22945,18.22945,0,0,1,12.02739.10722,5.79481,5.79481,0,0,0,3.24482.60684,4.99254,4.99254,0,0,0,2.32073-1.6968l10.06553-10.95218c2.04848-2.22892,4.37544-4.60362,7.387-4.91222a11.66222,11.66222,0,0,1,5.22417,1.03624,78.79971,78.79971,0,0,1,11.67145,5.54606" transform="translate(-214.84928 -124.57498)" fill="#2f2e41"/><polygon points="456 324.85 453 326.85 473 346.85 485 335.85 465 319.85 456 324.85" fill="#3f3d56"/><rect width="247.65997" height="256.25" fill="#e6e6e6"/><rect x="13.21997" y="13.67999" width="221.22003" height="228.89001" fill="#fff"/><polygon points="56.26 246.57 64.139 246.57 64.089 243.398 63.954 236.362 62.705 164.015 62.688 163.677 62.047 126.711 60.478 36.85 60.124 36.85 58.453 127.369 57.795 163.694 57.778 164.032 56.26 246.57" fill="#e6e6e6"/><rect x="283.01613" y="348.73676" width="6.29051" height="23.76413" transform="translate(257.09777 -185.16627) rotate(62.23413)" fill="#e6e6e6"/><rect x="119" y="6.85004" width="10" height="242" fill="#e6e6e6"/><rect y="122.85004" width="247.65997" height="10" fill="#e6e6e6"/></svg>
+                                    <div class="small font-weight-bold">Selecione o Teste a ser realizado.</div>
+                                    <div class="input-group mr-3 mb-1">
+                                        <select class="custom-select" id="testSelect">
+                      <option selected>Incremental</option>
+                      <option value="1">Rampa</option>
+                    </select>
+                                    </div>
+                                    <div class="row align-items-center no-gutters justify-content-center mb-3">
+                                        <div class="col-auto mr-2">
+                                            <a href="#" class="btn-sm btn-success btn-icon-split my-4" id="btStSp" onClick="startTest();"> <span class="icon text-white-50"> 
+                                            <svg version="1.1" style="width: 1rem;" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                            viewBox="0 0 448 512" style="enable-background:new 0 0 448 512;" xml:space="preserve">
+                                         <path class="st0" id="icoBtn" d="M424.4,214.7L72.4,6.6C43.8-10.3,0,6.1,0,47.9V464c0,37.5,40.7,60.1,72.4,41.3l352-208
+                                           C455.8,278.8,455.9,233.2,424.4,214.7L424.4,214.7z"/>
+                                         </svg> </span> <span class="text" id="btnStTxt">Iniciar</span> </a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <a href="#" class="btn-sm btn-info btn-icon-split my-4" id="btReload" onClick="resetTest();"> <span class="icon text-white-50"> 
+                                                <svg version="1.1" style="width: 1rem;" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                             <path class="st0" id="icoBtn" d="M256.455 8c66.269.119 126.437 26.233 170.859 68.685l35.715-35.715C478.149 25.851 504 36.559 504 57.941V192c0 13.255-10.745 24-24 24H345.941c-21.382 0-32.09-25.851-16.971-40.971l41.75-41.75c-30.864-28.899-70.801-44.907-113.23-45.273-92.398-.798-170.283 73.977-169.484 169.442C88.764 348.009 162.184 424 256 424c41.127 0 79.997-14.678 110.629-41.556 4.743-4.161 11.906-3.908 16.368.553l39.662 39.662c4.872 4.872 4.631 12.815-.482 17.433C378.202 479.813 319.926 504 256 504 119.034 504 8.001 392.967 8 256.002 7.999 119.193 119.646 7.755 256.455 8z"/>
+                                             </svg> </span> <span class="text" id="btnReloadTxt">Reiniciar</span> </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+                <div class="container-fluid">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Progresso</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="card pt-3 pb-1 px-3 align-content-center border-bottom-primary">
+                                <p class="small font-weight-bold  text-gray-800">Tempo <span class="float-right stopwatch"></span></p>
+                            </div>
+                            <div class="card pt-3 pb-1 px-3 my-3 align-content-center border-bottom-info">
+                                <p class="small font-weight-bold  text-gray-800">RPM <span class="float-right font-weight-bold  text-gray-800" id="rpmTx">0 rpm</span></p>
+                            </div>
+                            <div class="card pt-3 pb-1 px-3 my-3 align-content-center border-bottom-success">
+                                <h4 class="small font-weight-bold">Carga <span class="float-right" id="testProgress">0%</span></h4>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="testProgressBar"></div>
+                                </div>
+                            </div>
+                            <div class="card pt-3 pb-1 px-3 align-content-center border-bottom-info">
+                                <p class="small font-weight-bold  text-gray-800">IMC <span class="float-right" id="imc">24 Kg/cm²</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <p>Copyright &copy; 2020 &middot; All Rights Reserved &middot; <a href="http://onecorpore.com/">OneCorpore</a> </p>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <svg style="width: 2rem;" version="1.1" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 320 512" style="enable-background:new 0 0 320 512;" xml:space="preserve">
+        <path class="st0" d="M177,159.7l136,136c9.4,9.4,9.4,24.6,0,33.9l-22.6,22.6c-9.4,9.4-24.6,9.4-33.9,0L160,255.9l-96.4,96.4
+          c-9.4,9.4-24.6,9.4-33.9,0L7,329.7c-9.4-9.4-9.4-24.6,0-33.9l136-136C152.4,150.3,167.6,150.3,177,159.7L177,159.7z"/>
+        </svg>
+    </a>
+    <script>
+        var dispTimer;
+        var intervalF;
+        var stageWasSent = false;
+        var increWasSent = false;
+        var powWasSent = false;
+        var hasToReload = false;
+
+        // custom script for stopwatch
+        class Stopwatch {
+            constructor(display, results) {
+                this.running = false;
+                this.display = display;
+                this.results = results;
+                this.laps = [];
+                this.reset();
+                this.print(this.times);
+            }
+
+            reset() {
+                this.times = [0, 0, 0];
+            }
+
+            isRunning() {
+                return this.running;
+            }
+
+            start() {
+                if (!this.time) this.time = performance.now();
+                if (!this.running) {
+                    this.running = true;
+                    requestAnimationFrame(this.step.bind(this));
+                } else {
+                    this.running = false;
+                    this.time = null;
+                }
+            }
+
+            lap() {
+                let times = this.times;
+                let li = document.createElement('li');
+                li.innerText = this.format(times);
+                this.results.appendChild(li);
+            }
+
+            stop() {
+                this.running = false;
+                this.time = null;
+            }
+
+            restart() {
+                if (!this.time) this.time = performance.now();
+                if (!this.running) {
+                    this.running = true;
+                    requestAnimationFrame(this.step.bind(this));
+                }
+                this.reset();
+            }
+
+            clear() {
+                clearChildren(this.results);
+            }
+
+            step(timestamp) {
+                if (!this.running) return;
+                this.calculate(timestamp);
+                this.time = timestamp;
+                this.print();
+                requestAnimationFrame(this.step.bind(this));
+            }
+
+            calculate(timestamp) {
+                var diff = timestamp - this.time;
+                // Hundredths of a second are 100 ms
+                this.times[2] += diff / 10;
+                // Seconds are 100 hundredths of a second
+                if (this.times[2] >= 100) {
+                    this.times[1] += 1;
+                    this.times[2] -= 100;
+                }
+                // Minutes are 60 seconds
+                if (this.times[1] >= 60) {
+                    this.times[0] += 1;
+                    this.times[1] -= 60;
+                }
+            }
+
+            print() {
+                this.display.innerText = this.format(this.times);
+            }
+
+            format(times) {
+                return `\			${pad0(times[0], 2)}:\			${pad0(times[1], 2)}:\			${pad0(Math.floor(times[2]), 2)}`;
+            }
+        }
+
+        function pad0(value, count) {
+            var result = value.toString();
+            for (; result.length < count; --count)
+                result = '0' + result;
+            return result;
+        }
+
+        function clearChildren(node) {
+            while (node.lastChild)
+                node.removeChild(node.lastChild);
+        }
+
+        let stopwatch = new Stopwatch(
+            document.querySelector('.stopwatch'),
+            document.querySelector('.results'));
+
+        function calcularImc(event) {
+            var w = document.getElementById("weightInput").value;
+            var h = document.getElementById("heightInput").value;
+
+            if (w != '' && h != '') {
+                var imcId = document.getElementById("imc");
+                var imc = w / (h * h);
+                imcId.textContent = imc.toFixed(2) + " Kg/m²";
+            }
+        }
+
+        function startTest() {
+            var stage = document.getElementById("stageInput");
+            var btTxt = document.getElementById("btnStTxt");
+            var btStSp = document.getElementById("btStSp");
+            var icoBt = document.getElementById("icoBtn");
+            if (stageWasSent && increWasSent && powWasSent) {
+                var xhr = new XMLHttpRequest();
+                var url = "/start";
+                stopwatch.start();
+                if (stopwatch.isRunning() == true) {
+                    dispTimer = setInterval(stageUp, (stage.value * 1000));
+                    btTxt.textContent = "Parar Teste";
+                    btStSp.setAttribute("class", "btn-sm btn-danger btn-icon-split my-2");
+                    icoBt.setAttribute("d", "M400,32H48C21.5,32,0,53.5,0,80v352c0,26.5,21.5,48,48,48h352c26.5,0,48-21.5,48-48V80C448,53.5,426.5,32,400,32z");
+                    intervalF = window.setInterval(checkRpm, 1000);
+                } else {
+                    clearInterval(dispTimer);
+                    window.clearInterval(intervalF);
+                    var xhr = new XMLHttpRequest();
+                    var url = "/stop";
+                    xhr.open("GET", url, true);
+                    xhr.send();
+                    btTxt.textContent = "Iniciar Teste";
+                    btStSp.setAttribute("class", "btn-sm btn-success btn-icon-split my-2");
+                    icoBt.setAttribute("d", "M424.4,214.7L72.4,6.6C43.8-10.3,0,6.1,0,47.9V464c0,37.5,40.7,60.1,72.4,41.3l352-208C455.8,278.8,455.9,233.2,424.4,214.7L424.4,214.7z");
+                }
+                xhr.open("GET", url, true);
+                xhr.send();
+            } else {
+                alert("Envie os dados ao equipamento");
+            }
+
+        }
+
+        function checkRpm() {
+            var xhr = new XMLHttpRequest();
+            var url = "/RpmCheck";
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.responseText);
+                    document.getElementById("rpmTx").textContent = this.responseText + " rpm";
+                }
+            };
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+
+        function setStage() {
+            var stageInt = document.getElementById("stageInput");
+            var xhr = new XMLHttpRequest();
+            var url = "/data?stage=" + stageInt.value;
+            console.log(url);
+            xhr.onreadystatechange = function() {
+                // if (this.readyState == 4 && this.status == 200) {
+                //     console.log(this.responseText);
+                //     document.getElementById("rpmTx").textContent = this.responseText + " rpm";
+                // }
+            };
+            xhr.open("GET", url, true);
+            xhr.send();
+            stageWasSent = true;
+        }
+
+        function setIncrement() {
+            var incr = document.getElementById("incrementInput");
+            var xhr = new XMLHttpRequest();
+            var url = "/data?incr=" + incr.value;
+            console.log(url);
+            xhr.onreadystatechange = function() {
+                // if (this.readyState == 4 && this.status == 200) {
+                //     console.log(this.responseText);
+                //     document.getElementById("rpmTx").textContent = this.responseText + " rpm";
+                // }
+            };
+            xhr.open("GET", url, true);
+            xhr.send();
+            increWasSent = true;
+        }
+
+        function setPower() {
+            var initPW = document.getElementById("powerInput");
+            var xhr = new XMLHttpRequest();
+            var url = "/data?initPW=" + initPW.value;
+            console.log(url);
+            xhr.onreadystatechange = function() {
+                // if (this.readyState == 4 && this.status == 200) {
+                //     console.log(this.responseText);
+                //     document.getElementById("rpmTx").textContent = this.responseText + " rpm";
+                // }
+            };
+            xhr.open("GET", url, true);
+            xhr.send();
+            powWasSent = true;
+        }
+
+        function stageUp() {
+            if (stopwatch.isRunning() == true) {
+                var xhr = new XMLHttpRequest();
+                var url = "/stageUP";
+                xhr.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log("stageUped: " + this.responseText);
+                        document.getElementById("testProgress").textContent = this.responseText;
+                        document.getElementById("testProgressBar").style = "width: " + this.responseText + "%";
+
+                    }
+                };
+                xhr.open("GET", url, true);
+                xhr.send();
+            }
+        }
+
+        function resetTest() {
+            var xhr = new XMLHttpRequest();
+            var url = "/ResetTest";
+            xhr.open("GET", url, true);
+            xhr.send();
+            dataWasSent = false;
+            if (hasToReload) {
+                location.reload();
+            } else {
+                hasToReload = true;
+            }
+        }
+
+        function initialStage() {
+            initPow = document.getElementById("powerInput");
+            var xhr = new XMLHttpRequest();
+            var url = "/setInit?init=" + initPow.textContent;
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+    </script>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="jquery-1.11.3.min.js"></script>
+    <script src="bootstrap.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <!--<script src="vendor/jquery-easing/jquery.easing.min.js"></script>-->
+
+    <!-- Custom scripts for all pages-->
+    <script src="sb-admin-2.min.js"></script>
+</body>
+
+</html>
