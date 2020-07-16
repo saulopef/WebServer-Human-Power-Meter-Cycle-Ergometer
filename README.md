@@ -42,13 +42,20 @@
     - 🍴 Fork this repo!
 
 - **Option 2**
+
     - 👯 Clone this repo to your local machine using `https://github.com/saulopef/WebServer-Human-Power-Meter-Cycle-Ergometer.git`
 
 ### Step 2
 
-- **HACK AWAY!** 🔨🔨🔨
+    - Open the .ino file in Arduino IDE
+    - Upload the data folder to spiffs of the uController
+    - send the firmware .ino to uController
 
 ### Step 3
+
+- **HACK AWAY!** 🔨🔨🔨
+
+### Step 4
 
 - 🔃 Create a new pull request using <a href="https://github.com/saulopef/WebServer-Human-Power-Meter-Cycle-Ergometer/pulls" target="_blank">`https://github.com/saulopef/WebServer-Human-Power-Meter-Cycle-Ergometer/pulls`</a>.
 
