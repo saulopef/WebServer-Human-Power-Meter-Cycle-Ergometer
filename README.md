@@ -60,6 +60,15 @@
 - 🔃 Create a new pull request using <a href="https://github.com/saulopef/WebServer-Human-Power-Meter-Cycle-Ergometer/pulls" target="_blank">`https://github.com/saulopef/WebServer-Human-Power-Meter-Cycle-Ergometer/pulls`</a>.
 
 ---
+## Contributors
+
+
+| <a href="https://www.linkedin.com/in/saulosenoski/" target="_blank">**Saulo Senoski**</a> | <a href="https://www.linkedin.com/in/jose-gustavo-abreu-murta-27749a24/" target="_blank">**José Gustavo Abreu Murta**</a> |
+| :---: |:---:|
+| [![SauloSenoski](https://avatars3.githubusercontent.com/u/35967830?s=200&u=01a967206c46ce59fc40eae46924904702077afe&v=4)](https://www.linkedin.com/in/saulosenoski/)    | [![GustavoMurta](https://avatars0.githubusercontent.com/u/4587366?s=200&u=d1ba2c179c78d62922e358c26ca8098a7a21dd83&v=4)](https://www.linkedin.com/in/jose-gustavo-abreu-murta-27749a24/) |
+| <a href="https://github.com/saulopef" target="_blank">`github.com/saulopef`</a> | <a href="https://github.com/Gustavomurta" target="_blank">`github.com/Gustavomurta`</a> |
+
+---
 
 ## License
 
