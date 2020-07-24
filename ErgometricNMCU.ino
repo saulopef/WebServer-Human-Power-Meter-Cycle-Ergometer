@@ -3,32 +3,35 @@
   for Help - suporte@onecorpore.com
 */
 
-#include <SPI.h>
-#include <DNSServer.h>
-#include <ESP8266WiFi.h>
-#include <ESPAsyncTCP.h>
-#include <ESPAsyncWebServer.h>
-#include <FS.h> // Biblioteca SPI
+#include <SPI.h> //to connect with load control
+#include <DNSServer.h> // to make captive portal
+#include <ESP8266WiFi.h> // to make ap network
+#include <ESPAsyncTCP.h> // to send async data to webserver
+#include <ESPAsyncWebServer.h> // to make bootstrap webserver
+#include <FS.h> // to store bootstrap pages
 
-const int dacChipSelectPin = D8;
+const int dacChipSelectPin = D8; //SPI pin MOSI to DAC load controler
 
-const char *ssid = "OneCorpore";
-const char *password = "41142207";
-const byte DNS_PORT = 53;
-DNSServer dnsServer;
+const char *ssid = "OneCorpore"; // network SSID
+const char *password = "41142207"; // network passworld
+const byte DNS_PORT = 53; // captive portal port
+DNSServer dnsServer; // server for captive portal
 
 // Create AsyncWebServer object on port 80
-AsyncWebServer server(80);
+AsyncWebServer server(80); 
 
-bool startTimer;
-unsigned long stTime;
-unsigned long actTime;
-unsigned int actStage = 0;
-unsigned long previousMillis = 0;
-unsigned int chargePower = 0;
-unsigned int stepPower = 100;
-unsigned int interval = 1;
+bool startTimer; // flag to know with timer was running
+unsigned long stTime; // initial time
+unsigned long actTime; // actual time
+unsigned int actStage = 0; // actual stage of increment
+unsigned long previousMillis = 0; 
+unsigned int chargePower = 0; // load value from 0 to 4095
+unsigned int stepPower = 100; // increment value of load 
+unsigned int interval = 1; // intervar between steps
 unsigned int k = 1000; //segundos - 60000; milisegundos
+unsigned long Vi = 0; //velocidade inicial
+unsigned long Vf = 0; //velocidade Final
+
 
 const uint8_t interruptPin = D1; //pino de interrupção, hall rpm
 const uint8_t beepPin = D2;      //buzzerPin
@@ -48,7 +51,7 @@ void contador()
     pulsos++;
 }
 
-void beep(int beep)
+void beep(int beep) // buzzer beps
 {
     int oldTime = 0;
     for (int i = 0; i < beep * 2;)
@@ -64,22 +67,7 @@ void beep(int beep)
     digitalWrite(beepPin, LOW);
 }
 
-void buzz(long frequency, long length) {
-  long delayValue = 1000000/frequency/2; // calculate the delay value between transitions
-  // 1 second's worth of microseconds, divided by the frequency, then split in half since
-  // there are two phases to each cycle
-  long numCycles = frequency * length/ 1000; // calculate the number of cycles for proper timing
-  // multiply frequency, which is really cycles per second, by the number of seconds to 
-  // get the total number of cycles to produce
- for (long i=0; i < numCycles; i++){ // for the calculated length of time...
-    digitalWrite(beepPin,HIGH); // write the buzzer pin high to push out the diaphram
-    delayMicroseconds(delayValue); // wait for the calculated delay value
-    digitalWrite(beepPin,LOW); // write the buzzer pin low to pull back the diaphram
-    delayMicroseconds(delayValue); // wait again for the calculated delay value
-  }
-}
-
-class CaptiveRequestHandler : public AsyncWebHandler
+class CaptiveRequestHandler : public AsyncWebHandler // Captive portal Hendler
 {
 public:
     CaptiveRequestHandler() {}
@@ -127,51 +115,51 @@ void setup()
 
     dnsServer.start(53, "*", WiFi.softAPIP());
 
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) { // initial page
         noInterrupts();
         request->send(SPIFFS, "/index.html", String());
         interrupts();
         beep(2);
     });
-    server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request) { // initial page
         noInterrupts();
         request->send(SPIFFS, "/index.html", String());
         interrupts();
         beep(2);
     });
-    server.on("/about.html", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/about.html", HTTP_GET, [](AsyncWebServerRequest *request) { // about page
         noInterrupts();
         request->send(SPIFFS, "/about.html", String());
         interrupts();
     });
     // Route to load style.css file
-    server.on("/sb-admin-2.min.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/sb-admin-2.min.js", HTTP_GET, [](AsyncWebServerRequest *request) { // bootstrap theme js
         noInterrupts();
         request->send(SPIFFS, "/sb-admin-2.min.js", "text/js");
         interrupts();
     });
-    server.on("/sb-admin-2.min.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/sb-admin-2.min.css", HTTP_GET, [](AsyncWebServerRequest *request) { // bootstrap theme css
         noInterrupts();
         request->send(SPIFFS, "/sb-admin-2.min.css", "text/css");
         interrupts();
     });
-    server.on("/sb-admin-2.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/sb-admin-2.css", HTTP_GET, [](AsyncWebServerRequest *request) { // bootstrap theme css
         noInterrupts();
         request->send(SPIFFS, "/sb-admin-2.css", "text/css");
         interrupts();
     });
-    server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request) { // bootstrap js
         noInterrupts();
         request->send(SPIFFS, "/bootstrap.js", "text/js");
         interrupts();
     });
-    server.on("/jquery-1.11.3.min.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/jquery-1.11.3.min.js", HTTP_GET, [](AsyncWebServerRequest *request) { // jaquery js
         noInterrupts();
         request->send(SPIFFS, "/jquery-1.11.3.min.js", "text/js");
         interrupts();
     });
     // Route for root / web page
-    server.on("/start", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/start", HTTP_GET, [](AsyncWebServerRequest *request) { // Start/stop timer and test
         noInterrupts();
         startTimer = !startTimer;
         digitalWrite(2, !digitalRead(2));
@@ -179,18 +167,18 @@ void setup()
         interrupts();
         beep(4);
     });
-    server.on("/ResetTest", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/ResetTest", HTTP_GET, [](AsyncWebServerRequest *request) { //Reset Test
         noInterrupts();
         resetTest();
         request->send(200, "text/plain", String(actTime));
         interrupts();
     });
-    server.on("/RpmCheck", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/RpmCheck", HTTP_GET, [](AsyncWebServerRequest *request) { //return rpm to server
         noInterrupts();
         request->send(200, "text/plain", String(rpm));
         interrupts();
     });
-    server.on("/getIp", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/getIp", HTTP_GET, [](AsyncWebServerRequest *request) { // get board ip on server
         noInterrupts();
         AsyncResponseStream *response = request->beginResponseStream("text/html");
         response->print("<!DOCTYPE html><html><head><title>Captive Portal</title></head><body>");
@@ -202,7 +190,7 @@ void setup()
         interrupts();
     });
 
-    server.on("/data", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/data", HTTP_GET, [](AsyncWebServerRequest *request) { //setup test data with parameters
         noInterrupts();
         if (request->hasParam(PARAM_INPUT_STAGE))
         {
@@ -232,19 +220,19 @@ void setup()
         interrupts();
     });
 
-        server.on("/stageUP", HTTP_GET, [](AsyncWebServerRequest *request) {
+        server.on("/stageUP", HTTP_GET, [](AsyncWebServerRequest *request) { // test step
         noInterrupts();
         StageUp();
         request->send(200, "text/plain", String(map(chargePower, 0, 4096, 0,100)));
         interrupts();
     });
 
-    server.addHandler(new CaptiveRequestHandler()).setFilter(ON_AP_FILTER);
+    server.addHandler(new CaptiveRequestHandler()).setFilter(ON_AP_FILTER); // setup captive portal only in ap mode
     // Start server
     server.begin();
 
     Serial.println(WiFi.softAPIP());
-    attachInterrupt(digitalPinToInterrupt(interruptPin), contador, FALLING);
+    attachInterrupt(digitalPinToInterrupt(interruptPin), contador, FALLING); // attach interrutions on rpm sensor pin
     pulsos = 0;
     rpm = 0;
     timeold = 0;
@@ -261,12 +249,12 @@ void setup()
     
 }
 
-void notFound(AsyncWebServerRequest *request)
+void notFound(AsyncWebServerRequest *request) // on not found a page in webserver
 {
     request->send(SPIFFS, "/404.html", String());
 }
 
-void resetTest()
+void resetTest() // reinitialize test
 {
     actStage = 0;
     startTimer = false;
@@ -274,7 +262,7 @@ void resetTest()
     chargePower = 0;
 }
 
-void StageUp()
+void StageUp() // test step
 {
     
     if(chargePower <= 4096 ){
@@ -312,7 +300,7 @@ void loop()
     }
 }
 
-void setDac(int valor)
+void setDac(int valor) // send load value in bytes to DAC
 {
     byte dacRegister = 0b00110000;                        // Byte default de configuração (veja tabela do registrador do MCP4922) 8 bits da esquerda
     int dacSecondaryByteMask = 0b0000000011111111;        // Máscara para separar os 8 bits menos significativos do valor do DAC (12 bits)
